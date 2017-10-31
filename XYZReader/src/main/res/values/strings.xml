@@ -9,4 +9,10 @@
 
     <string name="up">Up</string>
 
+    <!-- Activity that lists articles -->
+    <string name="cover_content_description">The cover photo of an article</string>
+
+
+    <!-- Activity that shows articles -->
+
 </resources>
