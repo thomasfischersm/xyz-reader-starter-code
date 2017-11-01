@@ -22,10 +22,15 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:navigationBarColor">@color/primary</item>
     </style>
 
-    <style name="Main.Theme.Detail">
+    <style name="Main.Theme.Detail" parent="@style/Main.Theme">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowActionBar">false</item>
     </style>
 
     <style name="transparent_text" parent="TextAppearance.AppCompat">
