@@ -115,7 +115,6 @@
                     android:paddingBottom="@dimen/detail_body_bottom_margin"
                     android:textColor="@color/secondary_text"
                     android:textColorLink="@color/accent"/>
-
             </com.example.xyzreader.ui.MaxWidthLinearLayout>
         </FrameLayout>
     </android.support.v4.widget.NestedScrollView>

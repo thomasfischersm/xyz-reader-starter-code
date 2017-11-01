@@ -184,7 +184,11 @@ public class ArticleDetailFragment extends Fragment implements
                 article = article.substring(0, 10_000);
             }
 
+            // The articles include newlines for manual line wrapping. Because the screen width of
+            // devices may need a different line wrapping, any single newline is ignored. Only two
+            // consecutive newlines are assumed to be a new paragraph.
             mBodyView.setText(Html.fromHtml(article.replaceAll("(\r\n\r\n)", "<br /><br />")));
+
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
