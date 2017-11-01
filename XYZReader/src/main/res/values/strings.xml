@@ -11,6 +11,7 @@
 
     <!-- Activity that lists articles -->
     <string name="cover_content_description">The cover photo of an article</string>
+    <string name="tagline">Happy reading!</string>
 
 
     <!-- Activity that shows articles -->
