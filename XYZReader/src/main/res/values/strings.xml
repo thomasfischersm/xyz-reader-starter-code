@@ -15,5 +15,5 @@
 
 
     <!-- Activity that shows articles -->
-
+    <string name="sub_heading">%1$s by %2$s</string>
 </resources>

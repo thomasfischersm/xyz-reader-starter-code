@@ -173,24 +173,19 @@ public class ArticleDetailFragment extends Fragment implements
                 Log.i(TAG, "bindViews: Setting title to " + title);
             }
             Date publishedDate = parsePublishedDate();
+            String author = mCursor.getString(ArticleLoader.Query.AUTHOR);
+            final String datePart;
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
-                mBylineView.setText(Html.fromHtml(
-                        DateUtils.getRelativeTimeSpanString(
-                                publishedDate.getTime(),
-                                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
-                                DateUtils.FORMAT_ABBREV_ALL).toString()
-                                + " by <font color='#ffffff'>"
-                                + mCursor.getString(ArticleLoader.Query.AUTHOR)
-                                + "</font>"));
-
+                datePart = DateUtils.getRelativeTimeSpanString(
+                        publishedDate.getTime(),
+                        System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                        DateUtils.FORMAT_ABBREV_ALL).toString();
             } else {
                 // If date is before 1902, just show the string
-                mBylineView.setText(Html.fromHtml(
-                        outputFormat.format(publishedDate) + " by <font color='#ffffff'>"
-                                + mCursor.getString(ArticleLoader.Query.AUTHOR)
-                                + "</font>"));
+                datePart = outputFormat.format(publishedDate);
 
             }
+            mBylineView.setText(getString(R.string.sub_heading, datePart, author));
             String article = mCursor.getString(ArticleLoader.Query.BODY);
 
             // Shorten article for performance reasons.
@@ -198,7 +193,7 @@ public class ArticleDetailFragment extends Fragment implements
                 article = article.substring(0, 10_000);
             }
 
-            mBodyView.setText(Html.fromHtml(article.replaceAll("(\r\n|\n)", "<br />")));
+            mBodyView.setText(Html.fromHtml(article.replaceAll("(\r\n\r\n)", "<br /><br />")));
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
