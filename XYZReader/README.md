@@ -20,3 +20,13 @@ fear that it might be considered as changing the app too much.
 
 So, I'm sending this project in to see how much I'm on track. Where I still have more to improve
 and where I improved too much.
+
+
+# Notes
+- You will find some unused methods in the utility classes. I've created a few utility classes that
+I use on my projects. I copy them from one project to the next. So, I didn't create them from
+scratch for this one.
+
+- I've used stackoverflow and the Android documentation quite a bit. There are individual lines of
+code or short snippets copy-pasted and modified in the code all over the place. For example, I've
+lifted the code to check for WiFi and adjusted it for my needs.
