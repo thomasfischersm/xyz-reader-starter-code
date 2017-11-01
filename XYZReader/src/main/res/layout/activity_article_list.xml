@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary"
+        android:elevation="4dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -28,9 +29,9 @@
                 android:padding="8dp"
                 android:text="@string/tagline"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                app:layout_collapseParallaxMultiplier=".2"
                 android:textColor="@color/icons"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier=".2"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
