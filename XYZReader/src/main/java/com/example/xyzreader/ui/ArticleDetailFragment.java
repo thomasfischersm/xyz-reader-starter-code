@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
+import com.example.xyzreader.XYZReaderPreferences;
 import com.example.xyzreader.data.ArticleLoader;
 
 import java.text.ParseException;
@@ -256,5 +258,21 @@ public class ArticleDetailFragment extends Fragment implements
                 }
             }
         });
+
+        // Show swipe hint snack bar for first time.
+        if (!XYZReaderPreferences.hasSeenSwipeSnackBar(getActivity())) {
+            final Snackbar snackbar = Snackbar.make(
+                    mRootView,
+                    R.string.swipe_hint,
+                    Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(R.string.dismiss_action, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    XYZReaderPreferences.setHasSeenSwipeSnackBar(getActivity(), true);
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
     }
 }
