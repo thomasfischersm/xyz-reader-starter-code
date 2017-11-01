@@ -78,8 +78,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
-                app:layout_collapseMode="pin"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -88,35 +88,26 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
+        <com.example.xyzreader.ui.MaxWidthLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_gravity="center_horizontal"
+            android:background="@color/background"
+            android:maxWidth="@dimen/detail_card_max_width"
+            android:orientation="vertical">
 
-            <com.example.xyzreader.ui.MaxWidthLinearLayout
+            <TextView
+                android:id="@+id/article_body"
+                style="?android:attr/textAppearanceMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/background"
-                android:elevation="2dp"
-                android:maxWidth="@dimen/detail_card_max_width"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/article_body"
-                    style="?android:attr/textAppearanceMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
-                    android:layout_marginRight="@dimen/detail_inner_horiz_margin"
-                    android:layout_marginTop="16dp"
-                    android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
-                    android:paddingBottom="@dimen/detail_body_bottom_margin"
-                    android:textColor="@color/secondary_text"
-                    android:textColorLink="@color/accent"/>
-            </com.example.xyzreader.ui.MaxWidthLinearLayout>
-        </FrameLayout>
+                android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
+                android:layout_marginRight="@dimen/detail_inner_horiz_margin"
+                android:layout_marginTop="16dp"
+                android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
+                android:textColor="@color/secondary_text"
+                android:textColorLink="@color/accent"/>
+        </com.example.xyzreader.ui.MaxWidthLinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
