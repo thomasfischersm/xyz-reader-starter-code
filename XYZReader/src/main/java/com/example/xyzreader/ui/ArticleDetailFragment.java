@@ -1,14 +1,14 @@
 package com.example.xyzreader.ui;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -130,19 +130,6 @@ public class ArticleDetailFragment extends Fragment implements
         return mRootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        // Initialize toolbar.
-        getActivityCast().setSupportActionBar(mToolbar);
-        ActionBar supportActionBar = getActivityCast().getSupportActionBar();
-        if (supportActionBar != null) {
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-            supportActionBar.setDisplayShowHomeEnabled(true);
-        }
-    }
-
     private Date parsePublishedDate() {
         try {
             String date = mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE);
@@ -245,5 +232,29 @@ public class ArticleDetailFragment extends Fragment implements
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mCursor = null;
         bindViews();
+    }
+
+    /**
+     * Called by the parent activity to notify the fragment that it has become selected.
+     *
+     * <p>The ViewPager pre-loads fragments. Therefore the Fragment.resume() method may be called
+     * when the fragment is still hidden. Typically, the ViewPager has two fragments loaded to
+     * make the swipe transition fluid.
+     */
+    public void onHasBecomeSelected() {
+        Log.i(TAG, "onHasBecomeSelected: The fragment has become selected. " + mItemId);
+
+        // Initialize toolbar.
+        mToolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                getActivityCast().setSupportActionBar(mToolbar);
+                ActionBar supportActionBar = getActivityCast().getSupportActionBar();
+                if (supportActionBar != null) {
+                    supportActionBar.setDisplayHomeAsUpEnabled(true);
+                    supportActionBar.setDisplayShowHomeEnabled(true);
+                }
+            }
+        });
     }
 }
