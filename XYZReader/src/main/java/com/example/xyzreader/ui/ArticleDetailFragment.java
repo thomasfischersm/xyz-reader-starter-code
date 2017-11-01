@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -47,7 +48,6 @@ public class ArticleDetailFragment extends Fragment implements
     private static final String TAG = "ArticleDetailFragment";
 
     public static final String ARG_ITEM_ID = "item_id";
-    private static final float PARALLAX_FACTOR = 1.25f;
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.photo) ImageView mPhotoView;
@@ -60,8 +60,10 @@ public class ArticleDetailFragment extends Fragment implements
     private long mItemId;
     private View mRootView;
 
+    @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
+    @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2, 1, 1);

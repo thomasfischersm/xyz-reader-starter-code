@@ -29,7 +29,6 @@ public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String SELECTED_ARTICLE_ID_KEY = "selectedArticleId";
-    private static final String CURRENT_FRAGMENT_TAG = "android:switcher:" + R.id.pager + ":%1$d";
 
     private Cursor mCursor;
     private long mStartId;
@@ -149,10 +148,6 @@ public class ArticleDetailActivity extends AppCompatActivity
     }
 
     private ArticleDetailFragment getCurrentFragment(int position) {
-//        @SuppressLint("DefaultLocale")
-//        String fragmentTag = String.format(CURRENT_FRAGMENT_TAG, mPager.getCurrentItem());
-//        Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
-//        return (ArticleDetailFragment) fragment;
         return (ArticleDetailFragment) mPagerAdapter.instantiateItem(mPager, position);
     }
 
