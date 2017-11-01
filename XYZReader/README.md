@@ -28,5 +28,4 @@ I use on my projects. I copy them from one project to the next. So, I didn't cre
 scratch for this one.
 
 - I've used stackoverflow and the Android documentation quite a bit. There are individual lines of
-code or short snippets copy-pasted and modified in the code all over the place. For example, I've
-lifted the code to check for WiFi and adjusted it for my needs.
+code or short snippets copy-pasted and modified in the code all over the place.
