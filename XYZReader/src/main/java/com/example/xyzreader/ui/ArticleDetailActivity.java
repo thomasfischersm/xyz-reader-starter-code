@@ -28,14 +28,13 @@ import butterknife.ButterKnife;
 public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String SELECTED_ARTICLE_ID_KEY = "selectedArticleId";
     private static final String CURRENT_FRAGMENT_TAG = "android:switcher:" + R.id.pager + ":%1$d";
 
     private Cursor mCursor;
     private long mStartId;
 
-    private long mSelectedItemId;
-//    private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
-    private int mTopInset;
+    private Long mSelectedItemId;
 
     @BindView(R.id.pager) ViewPager mPager;
 
@@ -68,21 +67,12 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
 
         mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                super.onPageScrollStateChanged(state);
-//                mUpButton.animate()
-//                        .alpha((state == ViewPager.SCROLL_STATE_IDLE) ? 1f : 0f)
-//                        .setDuration(300);
-//            }
-
             @Override
             public void onPageSelected(int position) {
                 if (mCursor != null) {
                     mCursor.moveToPosition(position);
+                    mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
                 }
-                mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
-//                updateUpButtonPosition();
 
                 // Notify the current fragment that it has become visible.
                 ArticleDetailFragment currentFragment = getCurrentFragment(position);
@@ -96,6 +86,19 @@ public class ArticleDetailActivity extends AppCompatActivity
             if (getIntent() != null && getIntent().getData() != null) {
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
                 mSelectedItemId = mStartId;
+            }
+        } else {
+            mSelectedItemId = savedInstanceState.getLong(SELECTED_ARTICLE_ID_KEY);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (outState != null) {
+            if (mSelectedItemId != null) {
+                outState.putLong(SELECTED_ARTICLE_ID_KEY, mSelectedItemId);
             }
         }
     }
@@ -122,12 +125,13 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPagerAdapter.notifyDataSetChanged();
 
         // Select the start ID
-        if (mStartId > 0) {
+        long targetId = (mSelectedItemId != null) ? mSelectedItemId : mStartId;
+        if (targetId > 0) {
             mCursor.moveToFirst();
             // TODO: optimize
             while (!mCursor.isAfterLast()) {
                 long articleId = mCursor.getLong(ArticleLoader.Query._ID);
-                if (articleId == mStartId) {
+                if (articleId == targetId) {
                     final int position = mCursor.getPosition();
                     mPager.setCurrentItem(position, false);
                     break;
