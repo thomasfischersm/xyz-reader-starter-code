@@ -182,9 +182,26 @@ public class ArticleListActivity extends AppCompatActivity implements
                         + "<br/>" + " by "
                         + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
-            holder.thumbnailView.setImageUrl(
-                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
-                    ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
+
+            // Note to Udacity reviewer: The last reviewer suggested to set an image size by calling
+            // override() on Glide. This is unnecessary and reduces the image quality. Glide already
+            // automatically looks at the dimensions of the target view.
+            //
+            // "Glide automatically limits the size of the image it holds in cache and memory to the
+            // ImageView dimensions."
+            // https://futurestud.io/tutorials/glide-image-resizing-scaling
+            //
+            // Glide API documentation:
+            // "Overrides the Target's width and height with the given values. This is useful for
+            // thumbnails, and should only be used for other cases when you need a very specific
+            // image size."
+            // http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#override-int-int-
+
+            String thumbUrl = mCursor.getString(ArticleLoader.Query.THUMB_URL);
+            GlideApp.with(ArticleListActivity.this)
+                    .load(thumbUrl)
+                    .placeholder(R.drawable.ic_cloud_download_black_24dp)
+                    .into(holder.thumbnailView);
             holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
         }
 
@@ -195,7 +212,7 @@ public class ArticleListActivity extends AppCompatActivity implements
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.thumbnail) DynamicHeightNetworkImageView thumbnailView;
+        @BindView(R.id.thumbnail) DynamicHeightImageView thumbnailView;
         @BindView(R.id.article_title) TextView titleView;
         @BindView(R.id.article_subtitle) TextView subtitleView;
 

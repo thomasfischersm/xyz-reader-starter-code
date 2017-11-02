@@ -3,7 +3,6 @@ package com.example.xyzreader.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,8 +22,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.XYZReaderPreferences;
 import com.example.xyzreader.data.ArticleLoader;
@@ -189,21 +186,11 @@ public class ArticleDetailFragment extends Fragment implements
             // consecutive newlines are assumed to be a new paragraph.
             mBodyView.setText(Html.fromHtml(article.replaceAll("(\r\n\r\n)", "<br /><br />")));
 
-            ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
-                    .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            Bitmap bitmap = imageContainer.getBitmap();
-                            if (bitmap != null) {
-                                mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                            }
-                        }
-
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    });
+            String photoUrl = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
+            GlideApp.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.ic_cloud_download_black_24dp)
+                    .into(mPhotoView);
         } else {
             mRootView.setVisibility(View.GONE);
             mTitleView.setText("N/A");
