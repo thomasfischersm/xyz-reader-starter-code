@@ -22,14 +22,14 @@
 
 package com.example.xyzreader.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Helper for building selection clauses for {@link SQLiteDatabase}. Each
@@ -43,27 +43,10 @@ public class SelectionBuilder {
     private ArrayList<String> mSelectionArgs;
 
     /**
-     * Reset any internal state, allowing this builder to be recycled.
-     */
-    public SelectionBuilder reset() {
-        mTable = null;
-		if (mProjectionMap != null) {
-			mProjectionMap.clear();
-		}
-		if (mSelection != null) {
-			mSelection.setLength(0);
-		}
-		if (mSelectionArgs != null) {
-			mSelectionArgs.clear();
-		}
-        return this;
-    }
-
-    /**
      * Append the given selection clause to the internal state. Each clause is
      * surrounded with parenthesis and combined using {@code AND}.
      */
-    public SelectionBuilder where(String selection, String... selectionArgs) {
+    SelectionBuilder where(String selection, String... selectionArgs) {
         if (TextUtils.isEmpty(selection)) {
             if (selectionArgs != null && selectionArgs.length > 0) {
                 throw new IllegalArgumentException(
@@ -90,7 +73,7 @@ public class SelectionBuilder {
         return this;
     }
 
-    public SelectionBuilder table(String table) {
+    SelectionBuilder table(String table) {
         mTable = table;
         return this;
     }
@@ -101,12 +84,6 @@ public class SelectionBuilder {
         }
     }
 
-    private void ensureProjectionMap() {
-		if (mProjectionMap == null) {
-			mProjectionMap = new HashMap<String, String>();
-		}
-    }
-
     private void ensureSelection(int lengthHint) {
     	if (mSelection == null) {
     		mSelection = new StringBuilder(lengthHint + 8);
@@ -115,20 +92,8 @@ public class SelectionBuilder {
 
     private void ensureSelectionArgs() {
     	if (mSelectionArgs == null) {
-    		mSelectionArgs = new ArrayList<String>();
+    		mSelectionArgs = new ArrayList<>();
     	}
-    }
-
-    public SelectionBuilder mapToTable(String column, String table) {
-    	ensureProjectionMap();
-        mProjectionMap.put(column, table + "." + column);
-        return this;
-    }
-
-    public SelectionBuilder map(String fromColumn, String toClause) {
-    	ensureProjectionMap();
-        mProjectionMap.put(fromColumn, toClause + " AS " + fromColumn);
-        return this;
     }
 
     /**
@@ -136,7 +101,7 @@ public class SelectionBuilder {
      *
      * @see #getSelectionArgs()
      */
-    public String getSelection() {
+    private String getSelection() {
     	if (mSelection != null) {
             return mSelection.toString();
     	} else {
@@ -149,7 +114,7 @@ public class SelectionBuilder {
      *
      * @see #getSelection()
      */
-    public String[] getSelectionArgs() {
+    private String[] getSelectionArgs() {
     	if (mSelectionArgs != null) {
             return mSelectionArgs.toArray(new String[mSelectionArgs.size()]);
     	} else {
@@ -176,14 +141,14 @@ public class SelectionBuilder {
     /**
      * Execute query using the current internal state as {@code WHERE} clause.
      */
-    public Cursor query(SQLiteDatabase db, String[] columns, String orderBy) {
+    Cursor query(SQLiteDatabase db, String[] columns, String orderBy) {
         return query(db, columns, null, null, orderBy, null);
     }
 
     /**
      * Execute query using the current internal state as {@code WHERE} clause.
      */
-    public Cursor query(SQLiteDatabase db, String[] columns, String groupBy,
+    private Cursor query(SQLiteDatabase db, String[] columns, String groupBy,
             String having, String orderBy, String limit) {
         assertTable();
         if (columns != null) mapColumns(columns);
@@ -194,7 +159,7 @@ public class SelectionBuilder {
     /**
      * Execute update using the current internal state as {@code WHERE} clause.
      */
-    public int update(SQLiteDatabase db, ContentValues values) {
+    int update(SQLiteDatabase db, ContentValues values) {
         assertTable();
         return db.update(mTable, values, getSelection(), getSelectionArgs());
     }
@@ -202,7 +167,7 @@ public class SelectionBuilder {
     /**
      * Execute delete using the current internal state as {@code WHERE} clause.
      */
-    public int delete(SQLiteDatabase db) {
+    int delete(SQLiteDatabase db) {
         assertTable();
         return db.delete(mTable, getSelection(), getSelectionArgs());
     }
